@@ -1,0 +1,41 @@
+
+@import '../assets/style/main.scss';
+
+.st-popup-body {
+  width: 240px;
+  padding: 10px;
+  .switch-box {
+    text-align: center;
+    .switch {
+      height: 50px;
+      width: 50px;
+      margin: 0 auto;
+      cursor: pointer;
+      border-radius: 100%;
+      background-color: green;
+    }
+  }
+  .formItem {
+    display: flex;
+    margin-top: 10px;
+    line-height: 24px;
+    align-items: center;
+    justify-content: space-between;
+    &-label {
+      height: 22px;
+      font-size: 16px;
+      padding-right: 6px;
+    }
+    &-content {
+      height: 22px;
+      line-height: 22px;
+    }
+  }
+}
+
+.st-popup-footer {
+  padding: 5px;
+  color: #636363;
+  text-align: center;
+  background-color: #f0f0f0;
+}

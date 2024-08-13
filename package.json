@@ -10,6 +10,10 @@
     "package": "plasmo package"
   },
   "dependencies": {
+    "@ant-design/icons": "^5.4.0",
+    "antd": "^5.20.0",
+    "axios": "^1.7.3",
+    "gsap": "^3.12.5",
     "plasmo": "0.88.0",
     "react": "18.2.0",
     "react-dom": "18.2.0"
@@ -21,6 +25,7 @@
     "@types/react": "18.2.48",
     "@types/react-dom": "18.2.18",
     "prettier": "3.2.4",
+    "sass": "^1.77.8",
     "typescript": "5.3.3"
   },
   "manifest": {

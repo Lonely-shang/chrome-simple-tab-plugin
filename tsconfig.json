@@ -1,5 +1,6 @@
 {
   "extends": "plasmo/templates/tsconfig.base",
+  "jsx": "react",
   "exclude": [
     "node_modules"
   ],

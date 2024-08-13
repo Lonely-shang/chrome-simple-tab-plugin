@@ -1,0 +1,40 @@
+@import './variable.scss';
+
+*,
+body {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background-color: var(--brand-color);
+}
+
+:root {
+  --bg-color: var(--st-c-white);
+  --bg-color-rgb: var(--st-c-white-bg-rgba);
+  --text-color: var(--st-c-text-primary-black);
+  --text-color-light: var(--st-c-text-regular-black);
+  --text-color-lighter: var(--st-c-text-secondary-black);
+  --brand-color: var(--st-c-brand-white);
+}
+
+// @media (prefers-color-scheme: dark) {
+//   :root {
+//     --bg-color: var(--st-c-black-mid);
+//     --bg-color-rgb: var(--st-c-black-bg-rgba);
+//     --text-color: var(--st-c-text-primary-white);
+//     --text-color-light: var(--st-c-text-regular-white);
+//     --text-color-lighter: var(--st-c-text-secondary-white);
+//     --brand-color: var(--st-c-brand-black);
+//   }
+// }
