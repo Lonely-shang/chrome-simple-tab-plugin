@@ -7,6 +7,8 @@ import {
   type KeyboardEvent,
   type MutableRefObject
 } from "react"
+import type { SuggestList } from "~components"
+import type { SuggestListRef } from "~components/suggestList"
 
 import { getEngine } from "~data/searchEngineData"
 import { handlerSuggestData } from "~utils/suggestUtil"
@@ -19,6 +21,7 @@ import {
 class TabClient {
   private index: number = 0
   private mainDom: MutableRefObject<HTMLDivElement>
+  private suggestDom: MutableRefObject<SuggestListRef>
 
   private suggestTimeline = useState<gsap.core.Timeline>()
   private suggestReversed = useState<boolean>(true)
@@ -31,12 +34,13 @@ class TabClient {
 
   private searchEngine = useState<SearchEngine>(null)
 
-  private suggestListData = useState<React.JSX.Element[]>([])
+  private suggestListData = useState<SuggestListItem[]>([])
 
   private defaultEngine: string = "https://www.google.com/search?q="
 
-  constructor(refDom: MutableRefObject<HTMLDivElement>) {
+  constructor(refDom: MutableRefObject<HTMLDivElement>, suggestDom: MutableRefObject<SuggestListRef>) {
     this.mainDom = refDom
+    this.suggestDom = suggestDom
     this.init()
   }
 
@@ -54,6 +58,23 @@ class TabClient {
   }
 
   handlerSearchKeyDown(event: KeyboardEvent) {
+    console.log(event)
+    if (
+      event.key === "ArrowDown" ||
+      event.key === "ArrowUp" ||
+      (event.ctrlKey && event.key === "j") ||
+      (event.ctrlKey && event.key === "k")
+    ) {
+      this.handlerDirection(event.key)
+      event.preventDefault()
+      event.stopPropagation()
+      return
+    }
+    if (event.key == "Tab") {
+      event.preventDefault()
+      event.stopPropagation()
+      return
+    }
     const [searchVal, setSearchVal] = this.searchValState
     this.removePreTitle(searchVal, event)
     this.openSearchEngine(searchVal, event)
@@ -185,12 +206,15 @@ class TabClient {
     const [__, setSuggestList] = this.suggestListData
     if (!searchEngine) return
     const res = await handlerSuggestData(value, searchEngine)
+    this.suggestDom.current.resetActive()
     setSuggestList(res)
     this.setSuggest(res.length != 0)
   }
 
   private openSearchEngine(value: string, event: KeyboardEvent) {
     if (event.key !== "Enter") return
+    const isOpen = this.suggestDom.current.openSearch()
+    if (isOpen) return
     const [searchEngine, _] = this.searchEngine
     const [showPretitle, __] = this.preTitleReversed
     if (matchUrl(value)) {
@@ -206,6 +230,21 @@ class TabClient {
     }
 
     window.open(this.defaultEngine + value)
+  }
+
+  handlerDirection (key) {
+    switch (key) {
+      case 'ArrowDown':
+      case 'j':
+        this.suggestDom.current.nextSuggest()
+        break;
+      case 'ArrowUp':
+      case 'k':
+        this.suggestDom.current.preSuggest()
+        break;
+      default:
+        break;
+    }
   }
 }
 

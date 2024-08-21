@@ -1,3 +1,4 @@
+
 interface IHPImageArchive {
   images: Array<IImageItem>
   tooltips: ITooltips
@@ -33,16 +34,15 @@ interface SearchEngine {
   keyword: string
   title: string
   searchUrl: string
-  suggestionsUrl: string | null
+  engineType?: EngineType | null
+  suggestionsUrl?: string | null
+  openSuggestUrl?: string | null
   options: SearchEngineOptions | null
 }
 
 interface SearchEngineOptions {
-  title: string
-  version?: string
-  description?: string
   method: string
   data: {
-    [key: string]: ParamsType | string | number
+    [key: string]: ParamsType | string | number | boolean
   }
 }

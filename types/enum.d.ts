@@ -1,10 +1,10 @@
 
-export enum ParamsType {
+declare enum ParamsType {
   KEYWORD =  '#keyword#',
   KEYWORDLEN = '#keywordLength#',
 }
 
-export enum EngineType {
+declare enum EngineType {
   NPM = 'npm',
   BING = 'bing',
   GOOGLE = 'google',

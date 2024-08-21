@@ -61,7 +61,7 @@
         border: none;
         width: 100%;
         padding: 0 25px;
-        font-size: .22rem;
+        font-size: .21rem;
         transition: padding 0.5s;
         background-color: transparent;
 
@@ -98,6 +98,7 @@
         .suggestList-item {
           width: 100%;
           display: flex;
+          min-height: .35rem;
           font-weight: 600;
           font-size: .18rem;
           padding: .03rem 0;
@@ -137,6 +138,9 @@
           &:hover {
             background-color: rgba(240, 248, 255, 0.712);
           }
+        }
+        .actived {
+          background-color: rgba(240, 248, 255, 0.712);
         }
       }
     }

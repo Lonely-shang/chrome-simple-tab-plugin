@@ -6,11 +6,13 @@ import "../utils/fontSize"
 import getBackgroundImg from "~utils/backgroundUtil"
 
 import TabClient from "./tabClient"
+import { SuggestList, TimeClock } from "~components"
+import type { SuggestListRef } from "~components/suggestList"
 
 function NewTab() {
   const main = useRef<HTMLDivElement>(null)
-
-  const tabClient = new TabClient(main)
+  const suggestList = useRef<SuggestListRef>(null)
+  const tabClient = new TabClient(main, suggestList)
 
   const imageUrl = getBackgroundImg()
 
@@ -21,7 +23,9 @@ function NewTab() {
         backgroundImage: `url(${imageUrl})`
       }}>
       <div className="tabBody-wrap" ref={main}>
-        <div className="titleLogo">09 : 12 : 59</div>
+        <div className="titleLogo">
+          <TimeClock/>
+        </div>
         <div className="tabBody-main">
           <div className="searchBox">
             <div className="searchBox-title">{tabClient.engineName}</div>
@@ -37,14 +41,7 @@ function NewTab() {
               className={tabClient.getPlaceholderPosition}
             />
           </div>
-          <div className="suggestBox">
-            <ul className="suggestList">
-              {tabClient.getSuggestList.map(item => item)}
-              {/* {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((item) => (
-                <SuggestListItem key={item}  />
-              ))} */}
-            </ul>
-          </div>
+          <SuggestList ref={suggestList} suggestList={tabClient.getSuggestList}/>
         </div>
         {/* <div className="bookMark">
           <div className="bookMark-item"></div>
@@ -63,19 +60,5 @@ function NewTab() {
   )
 }
 
-const SuggestListItem = () => {
-  return (
-    <li className="suggestList-item">
-      <div className="item-left">
-        <div>@type/element-plus</div>
-        <div className="desc">
-          This is ui components This is ui components This is ui components This
-          is ui components This is ui components This is ui components
-        </div>
-      </div>
-      <div className="item-right">v1.0.1</div>
-    </li>
-  )
-}
 
 export default NewTab

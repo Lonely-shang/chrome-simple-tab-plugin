@@ -1,4 +1,4 @@
-import { ParamsType } from "~enum"
+import { EngineType, ParamsType } from "~enum"
 
 const searchEngineData: Array<SearchEngine> = [
   {
@@ -18,16 +18,45 @@ const searchEngineData: Array<SearchEngine> = [
   {
     keyword: "bing",
     title: "Bing",
+    engineType: EngineType.BING,
     searchUrl: "http://www.bing.com/search?q={query}",
-    suggestionsUrl: null,
-    options: null
+    suggestionsUrl: "https://www.bing.com/AS/Suggestions",
+    openSuggestUrl: "https://www.bing.com/",
+    options: {
+      method: "get",
+      data: {
+        pt: "page.home",
+        scope: "web",
+        mkt: "zh-cn",
+        qry: ParamsType.KEYWORD,
+        cp: ParamsType.KEYWORDLEN,
+        csr: 1,
+        msbqf: false,
+        cvid: "72AB655B80CE480A8DC15FE59A31791A"
+      }
+    }
   },
   {
     keyword: "google",
     title: "Google",
+    engineType: EngineType.GOOGLE,
     searchUrl: "http://www.google.com/search?q={query}",
-    suggestionsUrl: null,
-    options: null
+    suggestionsUrl: "https://www.google.com/complete/search",
+    options: {
+      method: "get",
+      data: {
+        q: ParamsType.KEYWORD,
+        cp: ParamsType.KEYWORDLEN,
+        client: "gws-wiz",
+        xssi: "t",
+        gs_pcrt: undefined,
+        hl: "zh-CN",
+        authuser: 0,
+        psi: "qhK8Zqe-JLCt0PEP5p6dwA0.1723601579143",
+        dpr: 1,
+        pq: null
+      }
+    }
   },
   {
     keyword: "stack",
@@ -55,14 +84,12 @@ const searchEngineData: Array<SearchEngine> = [
   {
     keyword: "youtube",
     title: "Youtube",
+    engineType: EngineType.GOOGLE,
     searchUrl: "https://www.youtube.com/results?search_query={query}",
     suggestionsUrl:
       "https://suggestqueries-clients6.youtube.com/complete/search",
     options: {
       method: "get",
-      title: "name",
-      version: null,
-      description: null,
       data: {
         client: "youtube",
         hl: "zh-cn",
@@ -95,17 +122,37 @@ const searchEngineData: Array<SearchEngine> = [
   {
     keyword: "npm",
     title: "NPM",
+    engineType: EngineType.NPM,
     searchUrl: "https://www.npmjs.com/search?q={query}",
     suggestionsUrl: "https://www.npmjs.com/search/suggestions",
+    openSuggestUrl: "https://www.npmjs.com/package/",
     options: {
       method: "get",
-      title: "name",
-      version: "version",
-      description: "description",
       data: {
         q: ParamsType.KEYWORD
       }
     }
+  },
+  {
+    keyword: "mdn",
+    title: "MDN",
+    searchUrl: "https://developer.mozilla.org/en-US/search?q={query}",
+    suggestionsUrl: null,
+    options: null
+  },
+  {
+    keyword: "juejin",
+    title: "稀土掘金",
+    searchUrl: "https://juejin.cn/search?query={query}",
+    suggestionsUrl: null,
+    options: null
+  },
+  {
+    keyword: "github",
+    title: "GitHub",
+    searchUrl: "https://github.com/search?q={query}&type=repositories",
+    suggestionsUrl: null,
+    options: null
   }
 ]
 

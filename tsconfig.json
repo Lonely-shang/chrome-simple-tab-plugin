@@ -5,6 +5,7 @@
     "node_modules"
   ],
   "include": [
+    "types/*.d.ts",
     ".plasmo/index.d.ts",
     "./**/*.ts",
     "./**/*.tsx"
