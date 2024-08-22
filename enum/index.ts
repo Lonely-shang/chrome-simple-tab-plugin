@@ -8,4 +8,5 @@ export enum EngineType {
   NPM = 'npm',
   BING = 'bing',
   GOOGLE = 'google',
+  BILIBILI= 'bilibili'
 }

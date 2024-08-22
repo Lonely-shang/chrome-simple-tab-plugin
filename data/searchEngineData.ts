@@ -60,9 +60,8 @@ const searchEngineData: Array<SearchEngine> = [
   },
   {
     keyword: "stack",
-    title: "Stack Overflow",
-    searchUrl:
-      "https://www.google.com/search?q=site%3Astackoverflow.com%20{query}",
+    title: "Overflow",
+    searchUrl: "https://stackoverflow.com/search?q={query}",
     suggestionsUrl: null,
     options: null
   },
@@ -108,9 +107,32 @@ const searchEngineData: Array<SearchEngine> = [
   {
     keyword: "bilibili",
     title: "BiliBili",
+    engineType: EngineType.BILIBILI,
     searchUrl: "https://search.bilibili.com/all?keyword={query}",
-    suggestionsUrl: null,
-    options: null
+    suggestionsUrl: "https://s.search.bilibili.com/main/suggest",
+    options: {
+      method: "get",
+      data: {
+        func: "suggest",
+        suggest_type: "accurate",
+        sub_type: "tag",
+        main_ver: "v1",
+        highlight: null,
+        userid: null,
+        bangumi_acc_num: 1,
+        special_acc_num: 1,
+        topic_acc_num: 1,
+        upuser_acc_num: 3,
+        tag_num: 10,
+        special_num: 10,
+        bangumi_num: 10,
+        upuser_num: 3,
+        term: ParamsType.KEYWORD,
+        rnd: null,
+        buvid: "F1165326-A6A0-44AE-EF1C-4D2F501CFD6897015infoc",
+        spmid: 333.1007
+      }
+    }
   },
   {
     keyword: "maven",

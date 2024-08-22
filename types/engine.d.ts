@@ -47,3 +47,22 @@ interface IBingSuggestItem {
     t?: string
   }
 }
+
+interface BilibiliResponse {
+  code: number
+  exp_str: string
+  stoken: string
+  result: {
+    tag: IBilibiliSuggestItem[]
+    [str:string]: any
+  }
+}
+
+interface IBilibiliSuggestItem {
+  name: string
+  ref: number
+  spid: number
+  term: string
+  type: string
+  value: string
+}

@@ -1,8 +1,8 @@
-import { SuggestListItem } from "~components"
 import { EngineType, ParamsType } from "../enum"
 
 import request from "./request"
 import { handlerSearchEngines } from "./urlUtils"
+import { escape } from "querystring"
 
 type HandlerSuggestData = (
   searchVal: string,
@@ -66,15 +66,17 @@ const handlerRequestData = (
 const hanlderResponse = (
   value: string,
   searchEngine: SearchEngine,
-  data: Array<any> | string
+  data: any
 ): SuggestListItem[] => {
   switch (searchEngine.engineType) {
     case EngineType.GOOGLE:
       return hanlderGoogleResponse(<string>data, searchEngine.searchUrl)
     case EngineType.NPM:
-      return handlerNpmResponse(<Array<any>>data, searchEngine.openSuggestUrl)
+      return handlerNpmResponse(<Array<NpmResponse>>data, searchEngine.openSuggestUrl)
     case EngineType.BING:
-      return handlerBingResponse(<Array<any>>data, searchEngine.openSuggestUrl)
+      return handlerBingResponse(<BingResponse>data, searchEngine.openSuggestUrl)
+    case EngineType.BILIBILI:
+      return handlerBilibiliResponse(<BilibiliResponse>data, searchEngine.searchUrl)
     default:
       return []
   }
@@ -94,9 +96,8 @@ const hanlderGoogleResponse = (res: string, searchUrl: string) : SuggestListItem
   })
 }
 
-const handlerNpmResponse = (res: any[], searchUrl: string): SuggestListItem[] => {
-  const _res = res as NpmResponse[]
-  return _res.map((item) => {
+const handlerNpmResponse = (res: NpmResponse[], searchUrl: string): SuggestListItem[] => {
+  return res.map((item) => {
     return {
       title: item.name,
       version: item.version,
@@ -107,14 +108,25 @@ const handlerNpmResponse = (res: any[], searchUrl: string): SuggestListItem[] =>
 }
 
 
-const handlerBingResponse = (res: any, searchUrl: string): SuggestListItem[] => {
-  const _res = res as BingResponse
-  return _res.s.map(item => {
+const handlerBingResponse = (res: BingResponse, searchUrl: string): SuggestListItem[] => {
+  return res.s.map(item => {
     return {
       title: item.q.replace(/[^\u4e00-\u9fa5a-zA-Z\s]/g, ''),
       version: null,
       description: null,
       openUrl: `${searchUrl}${item.u}`
+    }
+  })
+}
+
+const handlerBilibiliResponse = (res: BilibiliResponse, searchUrl: string): SuggestListItem[] => {
+  return res.result.tag.map(item => {
+    const title = item.value
+    return {
+      title,
+      description: null,
+      version: null,
+      openUrl: handlerSearchEngines(searchUrl, title)
     }
   })
 }
