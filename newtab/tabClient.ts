@@ -7,7 +7,6 @@ import {
   type KeyboardEvent,
   type MutableRefObject
 } from "react"
-import type { SuggestList } from "~components"
 import type { SuggestListRef } from "~components/suggestList"
 
 import { getEngine } from "~data/searchEngineData"
