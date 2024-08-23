@@ -86,7 +86,7 @@
     .suggestBox {
       width: 100%;
       height: 0;
-      overflow-y: auto;
+      overflow-y: hidden;
       backdrop-filter: blur(4px);
       background-color: var(--bg-color-rgb);
       box-shadow: inset 0px 1px 2px -2px rgba(0, 0, 0, 0.14),
@@ -95,6 +95,8 @@
         0px 5px 12px 4px rgba(0, 0, 0, 0.10);
 
       .suggestList {
+        height: 3.54rem;
+        overflow-y: auto;
         .suggestList-item {
           width: 100%;
           display: flex;

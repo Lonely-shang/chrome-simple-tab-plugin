@@ -18,4 +18,5 @@
       event.preventDefault()
     })
   })
+
 })(document, window)

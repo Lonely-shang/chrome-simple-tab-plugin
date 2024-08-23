@@ -19,14 +19,6 @@ export const handlerSuggestData: HandlerSuggestData = async (
   const data = handlerRequestData(options, searchVal)
   const res = await requestData(suggestionsUrl, method, data)
   return hanlderResponse(searchVal, searchEngine, res.data)
-  // return resData.map((el: any) => {
-  //   return SuggestListItem({
-  //     title: el.title,
-  //     description: el.description,
-  //     version: el.version,
-  //     openUrl: el.openUrl
-  //   })
-  // })
 }
 
 const requestData = async (

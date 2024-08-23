@@ -58,21 +58,19 @@ class TabClient {
   }
 
   handlerSearchKeyDown(event: KeyboardEvent) {
-    console.log(event)
+    event.stopPropagation()
     if (
       event.key === "ArrowDown" ||
       event.key === "ArrowUp" ||
       (event.ctrlKey && event.key === "j") ||
       (event.ctrlKey && event.key === "k")
     ) {
-      this.handlerDirection(event.key)
       event.preventDefault()
-      event.stopPropagation()
+      this.handlerDirection(event.key)
       return
     }
     if (event.key == "Tab") {
       event.preventDefault()
-      event.stopPropagation()
       return
     }
     const [searchVal, setSearchVal] = this.searchValState
@@ -204,6 +202,10 @@ class TabClient {
   private async handlerSuggestShow(value: string) {
     const [searchEngine, _] = this.searchEngine
     const [__, setSuggestList] = this.suggestListData
+    if (!value) {
+      setSuggestList([])
+      this.setSuggest(false)
+    }
     if (!searchEngine) return
     const res = await handlerSuggestData(value, searchEngine)
     this.suggestDom.current.resetActive()
@@ -232,7 +234,7 @@ class TabClient {
     window.open(this.defaultEngine + value)
   }
 
-  handlerDirection (key) {
+  handlerDirection (key: string) {
     switch (key) {
       case 'ArrowDown':
       case 'j':
