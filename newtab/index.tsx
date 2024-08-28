@@ -9,40 +9,42 @@ import type { SuggestListRef } from "~components/suggestList"
 import getBackgroundImg from "~utils/backgroundUtil"
 
 import TabClient from "./tabClient"
+import AnimationManager from "./manager/animationManager"
 
 function NewTab() {
   const main = useRef<HTMLDivElement>(null)
   const suggestList = useRef<SuggestListRef>(null)
-  const tabClient = new TabClient(main, suggestList)
-  const mailPort = getPort("update")
+  const animationManager = new AnimationManager(main)
+  const tabClient = new TabClient(animationManager, suggestList)
+  // const mailPort = getPort("update")
   const imageUrl = getBackgroundImg()
-chrome.storage.sync.set({
-  item: 1
-})
+// chrome.storage.sync.set({
+//   item: 1
+// })
 
-  mailPort.onMessage.addListener(msg => {
-    console.log(msg);
+//   mailPort.onMessage.addListener(msg => {
+//     console.log(msg);
     
-  })
-  // chrome.history.search({
-  //   text: ''
-  // })
-  console.log(chrome)
+//   })
+//   // chrome.history.search({
+//   //   text: ''
+//   // })
+//   console.log(chrome)
   
-chrome.storage.sync.get("item")
-.then(res => {
-  console.log(res);
+// chrome.storage.sync.get("item")
+// .then(res => {
+//   console.log(res);
   
-})
+// })
   
-  chrome.history.search(
-    {
-      text: ""
-    },
-    (results) => {
-      console.log(results)
-    }
-  )
+//   chrome.history.search(
+//     {
+//       text: ""
+//     },
+//     (results) => {
+//       console.log(results)
+//     }
+//   )
 
   return (
     <div
