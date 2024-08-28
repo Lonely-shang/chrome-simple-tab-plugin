@@ -1,11 +1,16 @@
 import { Segmented, Switch } from "antd"
 import React from "react"
+import { getPort } from '@plasmohq/messaging/port'
 
 import "./index.scss"
 
 const Popup: React.FC = () => {
-  const onChange = (checked: boolean) => {
+   const mailPort = getPort("update")
+  const onChange = (checked: string) => {
     console.log(`switch to ${checked}`)
+    mailPort.postMessage({
+      checked: checked
+    })
   }
   return (
     <>
@@ -20,9 +25,7 @@ const Popup: React.FC = () => {
             block
             defaultValue="跟随系统"
             options={["明亮", "黑暗", "跟随系统"]}
-            onChange={(value) => {
-              console.log(value) // string
-            }}
+            onChange={(value) => onChange(value)}
           />
         </div>
         {/* <div className="formItem">

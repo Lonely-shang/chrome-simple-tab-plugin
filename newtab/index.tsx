@@ -3,18 +3,46 @@ import { useRef } from "react"
 import "./index.scss"
 import "../utils/fontSize"
 
+import { getPort } from '@plasmohq/messaging/port'
+import { SuggestList, TimeClock } from "~components"
+import type { SuggestListRef } from "~components/suggestList"
 import getBackgroundImg from "~utils/backgroundUtil"
 
 import TabClient from "./tabClient"
-import { SuggestList, TimeClock } from "~components"
-import type { SuggestListRef } from "~components/suggestList"
 
 function NewTab() {
   const main = useRef<HTMLDivElement>(null)
   const suggestList = useRef<SuggestListRef>(null)
   const tabClient = new TabClient(main, suggestList)
-
+  const mailPort = getPort("update")
   const imageUrl = getBackgroundImg()
+chrome.storage.sync.set({
+  item: 1
+})
+
+  mailPort.onMessage.addListener(msg => {
+    console.log(msg);
+    
+  })
+  // chrome.history.search({
+  //   text: ''
+  // })
+  console.log(chrome)
+  
+chrome.storage.sync.get("item")
+.then(res => {
+  console.log(res);
+  
+})
+  
+  chrome.history.search(
+    {
+      text: ""
+    },
+    (results) => {
+      console.log(results)
+    }
+  )
 
   return (
     <div
@@ -24,7 +52,7 @@ function NewTab() {
       }}>
       <div className="tabBody-wrap" ref={main}>
         <div className="titleLogo">
-          <TimeClock/>
+          <TimeClock />
         </div>
         <div className="tabBody-main">
           <div className="searchBox">
@@ -41,7 +69,10 @@ function NewTab() {
               className={tabClient.getPlaceholderPosition}
             />
           </div>
-          <SuggestList ref={suggestList} suggestList={tabClient.getSuggestList}/>
+          <SuggestList
+            ref={suggestList}
+            suggestList={tabClient.getSuggestList}
+          />
         </div>
         {/* <div className="bookMark">
           <div className="bookMark-item"></div>
@@ -59,6 +90,5 @@ function NewTab() {
     </div>
   )
 }
-
 
 export default NewTab
