@@ -18,9 +18,16 @@ class EngineManager {
 
   constructor(animationManager: AnimationManager) {
     this.animationManager = animationManager
+    animationManager.setAnimationEndCallBack = this.clearEngineData(
+      this.searchEngine
+    )
   }
 
-  get getEngineName () {
+  get getCurrentEngine() {
+    return this.searchEngine
+  }
+
+  get getEngineName() {
     const [engineData, _] = this.searchEngine
     return engineData?.title
   }
@@ -60,7 +67,7 @@ class EngineManager {
   }
 
   removeEngineSymbol(searchVal: string, event: KeyboardEvent) {
-     if (searchVal === "" && event.key === "Backspace") {
+    if (searchVal === "" && event.key === "Backspace") {
       if (this.index === 1) {
         this.index = 0
         this.animationManager.setPreTitleStatus(false)
@@ -71,6 +78,13 @@ class EngineManager {
           clearTimeout(time)
         }, 300)
       }
+    }
+  }
+
+  clearEngineData(searchEngine) {
+    const [_, setSearchEngine] = searchEngine
+    return () => {
+      setSearchEngine(null)
     }
   }
 }

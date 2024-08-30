@@ -5,7 +5,7 @@ const [time, setTime] = useState("")
 export const getTimeData = () => time
 
 export const timeData = () => {
- let currentDate = new Date()
+  let currentDate = new Date()
   // 获取当前年份
   let year = currentDate.getFullYear()
 

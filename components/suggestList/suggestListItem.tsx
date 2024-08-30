@@ -8,6 +8,8 @@ const SuggestListItem: React.FC<{
   openUrl?: string
 }> = (props, ref) => {
   const openItem = () => {
+    console.log(props.openUrl);
+    
     !!props.openUrl && window.open(props.openUrl)
   }
   return (
@@ -16,7 +18,7 @@ const SuggestListItem: React.FC<{
         <div>{props.title}</div>
         {!!props.description && <div className="desc">{props.description}</div>}
       </div>
-      {!!props.version && <div className="item-right">v{props.version}</div>}
+      {!!props.version && <div className="item-right">{props.version}</div>}
     </li>
   )
 }

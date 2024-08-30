@@ -10,12 +10,14 @@ import getBackgroundImg from "~utils/backgroundUtil"
 
 import TabClient from "./tabClient"
 import AnimationManager from "./manager/animationManager"
+import SuggestManager from "~components/suggestList/suggestManager"
 
 function NewTab() {
   const main = useRef<HTMLDivElement>(null)
   const suggestList = useRef<SuggestListRef>(null)
   const animationManager = new AnimationManager(main)
-  const tabClient = new TabClient(animationManager, suggestList)
+  const suggestManager = new SuggestManager(suggestList, animationManager)
+  const tabClient = new TabClient(animationManager, suggestManager)
   // const mailPort = getPort("update")
   const imageUrl = getBackgroundImg()
 // chrome.storage.sync.set({
@@ -73,7 +75,7 @@ function NewTab() {
           </div>
           <SuggestList
             ref={suggestList}
-            suggestList={tabClient.getSuggestList}
+            suggestList={suggestManager.suggestList}
           />
         </div>
         {/* <div className="bookMark">

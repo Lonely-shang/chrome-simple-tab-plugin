@@ -92,7 +92,7 @@ const handlerNpmResponse = (res: NpmResponse[], searchUrl: string): SuggestListI
   return res.map((item) => {
     return {
       title: item.name,
-      version: item.version,
+      version: `v${item.version}`,
       description: item.description,
       openUrl: `${searchUrl}${item.name}`
     }

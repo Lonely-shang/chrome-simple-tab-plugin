@@ -10,11 +10,17 @@ class AnimationManager {
   private preTitleTween = useState<gsap.core.Tween>()
   private preTitleReversed = useState<boolean>(true)
 
+  private animationEndCallBack: () => void | null
+
   constructor(mainDom: MutableRefObject<HTMLDivElement>) {
     this.mainDom = mainDom
 
     this.initSuggestAnimated()
     this.initPreTitleAnimated()
+  }
+
+  set setAnimationEndCallBack (callback: () => void) {
+    this.animationEndCallBack = callback
   }
 
   get getPreTitleStatus() {
@@ -43,7 +49,7 @@ class AnimationManager {
           paddingRight: 10,
           duration: 0.5,
           ease: "back.out",
-          onReverseComplete: () => {}
+          onReverseComplete: () => this.animationEndCallBack()
         })
         setTl(tween)
       }, this.mainDom.current)
