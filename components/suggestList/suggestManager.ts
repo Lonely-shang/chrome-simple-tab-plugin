@@ -25,6 +25,10 @@ class SuggestManager {
     this.dom.current.nextSuggest()
   }
 
+  openState (): boolean {
+    return this.dom.current.openSearch()
+  }
+
   resetSelected() {
     this.dom.current.resetActive()
   }

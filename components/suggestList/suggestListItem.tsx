@@ -15,7 +15,7 @@ const SuggestListItem: React.FC<{
   return (
     <li key={props.title} className={`${props.active === props.index ? 'actived' : ''} suggestList-item`} onClick={() => openItem()}>
       <div className="item-left">
-        <div>{props.title}</div>
+        <div className="title">{props.title}</div>
         {!!props.description && <div className="desc">{props.description}</div>}
       </div>
       {!!props.version && <div className="item-right">{props.version}</div>}

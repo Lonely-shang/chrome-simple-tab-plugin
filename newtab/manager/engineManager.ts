@@ -8,15 +8,18 @@ import {
 } from "~utils/urlUtils"
 
 import type AnimationManager from "./animationManager"
+import type SuggestManager from "~components/suggestList/suggestManager"
 
 class EngineManager {
   private index: number
+  private suggestManager: SuggestManager
   private animationManager: AnimationManager
   private searchEngine = useState<SearchEngine>(null)
 
   private defaultEngine: string = "https://www.google.com/search?q="
 
-  constructor(animationManager: AnimationManager) {
+  constructor(animationManager: AnimationManager, suggestManager: SuggestManager) {
+    this.suggestManager = suggestManager
     this.animationManager = animationManager
     animationManager.setAnimationEndCallBack = this.clearEngineData(
       this.searchEngine
@@ -48,8 +51,8 @@ class EngineManager {
 
   openSearchEngine(value: string, event: KeyboardEvent) {
     if (event.key !== "Enter") return
-    // const isOpen = this.suggestDom.current.openSearch()
-    // if (isOpen) return
+    const isOpen = this.suggestManager.openState()
+    if (isOpen || value.startsWith('>')) return
     const [searchEngine, _] = this.searchEngine
     if (matchUrl(value)) {
       const openUri = handlerNetWorkUrl(value)

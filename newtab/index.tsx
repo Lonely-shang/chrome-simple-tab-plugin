@@ -1,4 +1,4 @@
-import { useRef } from "react"
+import { useEffect, useLayoutEffect, useRef } from "react"
 
 import "./index.scss"
 import "../utils/fontSize"
@@ -11,6 +11,7 @@ import getBackgroundImg from "~utils/backgroundUtil"
 import TabClient from "./tabClient"
 import AnimationManager from "./manager/animationManager"
 import SuggestManager from "~components/suggestList/suggestManager"
+import { initTheme, setTheme2Html } from "~utils/themeUtils"
 
 function NewTab() {
   const main = useRef<HTMLDivElement>(null)
@@ -18,16 +19,21 @@ function NewTab() {
   const animationManager = new AnimationManager(main)
   const suggestManager = new SuggestManager(suggestList, animationManager)
   const tabClient = new TabClient(animationManager, suggestManager)
-  // const mailPort = getPort("update")
+  const mailPort = getPort("theme")
+  initTheme()
   const imageUrl = getBackgroundImg()
 // chrome.storage.sync.set({
 //   item: 1
 // })
 
-//   mailPort.onMessage.addListener(msg => {
-//     console.log(msg);
-    
-//   })
+  mailPort.onMessage.addListener((res) => {
+    setTheme2Html(res.theme)
+  })
+
+  chrome.storage.onChanged.addListener((changes) => {
+    console.log(changes);
+    setTheme2Html(changes.theme.newValue)
+  })
 //   // chrome.history.search({
 //   //   text: ''
 //   // })

@@ -30,7 +30,7 @@ class TabClient {
   ) {
     this.animationManager = animationManager
     this.suggestManager = suggestManager
-    this.engineManager = new EngineManager(animationManager)
+    this.engineManager = new EngineManager(animationManager, suggestManager)
     this.commandManager = new CommandManager(animationManager)
   }
 

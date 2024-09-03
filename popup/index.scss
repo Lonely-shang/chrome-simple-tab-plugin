@@ -1,11 +1,13 @@
-
 @import '../assets/style/main.scss';
 
 .st-popup-body {
   width: 240px;
   padding: 10px;
+  background-color: var(--bg-color);
+
   .switch-box {
     text-align: center;
+
     .switch {
       height: 50px;
       width: 50px;
@@ -15,17 +17,20 @@
       background-color: green;
     }
   }
+
   .formItem {
     display: flex;
     margin-top: 10px;
     line-height: 24px;
     align-items: center;
     justify-content: space-between;
+
     &-label {
       height: 22px;
       font-size: 16px;
       padding-right: 6px;
     }
+
     &-content {
       height: 22px;
       line-height: 22px;
@@ -35,7 +40,8 @@
 
 .st-popup-footer {
   padding: 5px;
-  color: #636363;
+  color: var(--text-color);
   text-align: center;
-  background-color: #f0f0f0;
+  // background-color: #f0f0f0;
+  background-color: var(--bg-color-rgb);
 }

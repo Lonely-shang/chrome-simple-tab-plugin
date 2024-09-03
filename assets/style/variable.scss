@@ -57,17 +57,27 @@
   --st-c-border-white: #dcdfe6;
   --st-c-border-lighter-white: #ebeef5;
   --st-c-brand-white: #ecf5ff;
+  --st-c-hover-bg-white: rgba(240, 248, 255, 0.712);
+  --st-c-clock-white: rgba(255,255,255, 0.8);
+
   --st-c-black: #000000;
   --st-c-black-mid: #141414;
   --st-c-black-soft: #222222;
   --st-c-black-mute: #282828;
-  --st-c-black-bg-rgba: rgba(0, 0, 0, 0.55);
+  --st-c-black-bg-rgba: rgba(0, 0, 0, 0.75);
   --st-c-text-primary-black: #303133;
   --st-c-text-regular-black: #606266;
   --st-c-text-secondary-black: #545557;
   --st-c-border-black: #4C4D4F;
   --st-c-border-lighter-black: #363637;
   --st-c-brand-black: #18222c;
+  --st-c-hover-bg-black: rgba(240, 248, 255, 0.412);
+  --st-c-clock-black: rgba(0,0,0, 0.75);
+
+
+
+  --st-c-component-bg-color-black: #414243;
+  --st-c-component-bg-color-white: #f5f5f5;
 }
 // :root {
 //   --vt-c-white: #ffffffa4;

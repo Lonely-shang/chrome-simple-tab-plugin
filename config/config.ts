@@ -1,37 +1,23 @@
-const config = require('./config.json')
+import config from "./config.json"
 
-const configs = {
-  theme: 0,
-  engineList: []
-}
-
-const initConfig = () => {
-  console.log(config);
-}
-
-class Config {
-  num: number = 0
-  constructor () {
-
+const initConfig = async (): Promise<null> => {
+  chrome.storage.local.set({ theme: "os" })
+  const syncData = await chrome.storage.sync.get([
+    "theme",
+    "defaultEngine",
+    "engineList",
+    "commandList"
+  ])
+  if (!syncData.engineList) {
+    chrome.storage.sync.set({
+      ...config
+    })
   }
-
-  
-  set value(v : number) {
-    this.num = v;
-  }
-  
-
-  
-  public get value() : number {
-    return this.num
-  }
-  
-
+  chrome.storage.local.set(config)
+  return null
 }
 
-const configL = new Config()
 
-export {
-  initConfig,
-  configL
-}
+
+
+export { initConfig }

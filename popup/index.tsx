@@ -1,39 +1,62 @@
-import { Segmented, Switch } from "antd"
-import React from "react"
-import { getPort } from '@plasmohq/messaging/port'
+import { ConfigProvider, Segmented } from "antd"
+import React, { useEffect, useState } from "react"
+
+import { sendToBackground } from "@plasmohq/messaging"
 
 import "./index.scss"
 
+import { initTheme, setTheme2Html } from "../utils/themeUtils"
+
 const Popup: React.FC = () => {
-   const mailPort = getPort("update")
+  const [theme, setTheme] = useState(null)
+  const themeOptions = [
+    { label: "明亮", value: "light" },
+    { label: "黑暗", value: "dark" },
+    { label: "跟随系统", value: "os" }
+  ]
+
+  initTheme()
+
+  useEffect(() => {
+    chrome.storage.local.get("theme").then((res) => {
+      setTheme(res.theme)
+    })
+  }, [])
+
   const onChange = (checked: string) => {
-    console.log(`switch to ${checked}`)
-    mailPort.postMessage({
-      checked: checked
+    setTheme(checked)
+    setTheme2Html(checked)
+    sendToBackground({
+      name: "update",
+      body: {
+        theme: checked
+      }
     })
   }
   return (
     <>
       <div className="st-popup-body">
-        {/* <div className="switch-box">
-          <div className="switch">
-            <PoweroffOutlined />
-          </div>
-        </div> */}
+        <ConfigProvider theme={{
+          components: {
+            Segmented: {
+              itemColor: 'var(--text-color)',
+              itemHoverColor: 'var(--text-color)',
+              itemSelectedColor: 'var(--text-color)',
+              itemSelectedBg: 'var(--bg-color)',
+              trackBg: 'var(--component-bg-color)',
+            }
+          }
+        }}>
         <div>
           <Segmented<string>
             block
+            value={theme}
             defaultValue="跟随系统"
-            options={["明亮", "黑暗", "跟随系统"]}
+            options={themeOptions}
             onChange={(value) => onChange(value)}
           />
         </div>
-        {/* <div className="formItem">
-          <div className="formItem-label">启用加入标签:</div>
-          <div className="formItem-content">
-            <Switch defaultChecked onChange={onChange} />
-          </div>
-        </div> */}
+        </ConfigProvider>
       </div>
       <div className="st-popup-footer">@ 2024 Miliky - 扩展程序选项</div>
     </>

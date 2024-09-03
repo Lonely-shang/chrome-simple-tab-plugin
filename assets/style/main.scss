@@ -11,9 +11,11 @@ body {
   width: 2px;
   height: 2px;
 }
+
 ::-webkit-scrollbar-track {
   background-color: transparent;
 }
+
 ::-webkit-scrollbar-thumb {
   border-radius: 4px;
   // background-color: transparent;
@@ -27,6 +29,26 @@ body {
   --text-color-light: var(--st-c-text-regular-black);
   --text-color-lighter: var(--st-c-text-secondary-black);
   --brand-color: var(--st-c-brand-white);
+  --hover-color: var(--st-c-hover-bg-white);
+  --border-color: var(--st-c-border-white);
+  --title-clock: var(--st-c-clock-white);
+
+
+  --component-bg-color: var(--st-c-component-bg-color-white);
+}
+
+html[data-theme="dark"] {
+  --bg-color: var(--st-c-black-mid);
+  --bg-color-rgb: var(--st-c-black-bg-rgba);
+  --text-color: var(--st-c-text-primary-white);
+  --text-color-light: var(--st-c-text-regular-white);
+  --text-color-lighter: var(--st-c-text-secondary-white);
+  --brand-color: var(--st-c-brand-black);
+  --hover-color: var(--st-c-hover-bg-black);
+  --border-color: var(--st-c-border-black);
+  --title-clock: var(--st-c-clock-black);
+
+  --component-bg-color: var(--st-c-component-bg-color-black);
 }
 
 // @media (prefers-color-scheme: dark) {

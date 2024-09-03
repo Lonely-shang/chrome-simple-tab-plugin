@@ -3,5 +3,20 @@
 .optionBody {
   width: 100vw;
   height: 100vh;
-  background-color: var(--bg-color-rgb);
+  background-color: var(--bg-color);
+}
+
+.option-content {
+  width: 40%;
+  height: 100%;
+  margin: 0 auto;
+  color: var(--text-color);
+
+
+  .item-content {
+    width: 100%;
+    padding: 10px;
+    border-radius: 6px;
+    background-color: var(--component-bg-color);
+  }
 }

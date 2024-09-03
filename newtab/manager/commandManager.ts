@@ -1,6 +1,5 @@
 import type { Dispatch } from "react"
 
-import { timestampFormat } from "../../utils/timeUtil"
 import type AnimationManager from "./animationManager"
 
 class CommandManager {
@@ -14,7 +13,6 @@ class CommandManager {
   ): Promise<SuggestListItem[]> {
     if (searchVal == ">h") {
       const res = await chrome.history.search({ text: "", maxResults: 50 })
-      console.log(res)
       return res.map<SuggestListItem>((item) => {
         return {
           title: item.title,
