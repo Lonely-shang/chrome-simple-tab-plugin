@@ -20,39 +20,17 @@ function NewTab() {
   const suggestManager = new SuggestManager(suggestList, animationManager)
   const tabClient = new TabClient(animationManager, suggestManager)
   const mailPort = getPort("theme")
-  initTheme()
+  initTheme(true)
   const imageUrl = getBackgroundImg()
-// chrome.storage.sync.set({
-//   item: 1
-// })
-
-  mailPort.onMessage.addListener((res) => {
-    setTheme2Html(res.theme)
-  })
 
   chrome.storage.onChanged.addListener((changes) => {
     console.log(changes);
     setTheme2Html(changes.theme.newValue)
   })
-//   // chrome.history.search({
-//   //   text: ''
-//   // })
-//   console.log(chrome)
-  
-// chrome.storage.sync.get("item")
-// .then(res => {
-//   console.log(res);
-  
-// })
-  
-//   chrome.history.search(
-//     {
-//       text: ""
-//     },
-//     (results) => {
-//       console.log(results)
-//     }
-//   )
+
+  // mailPort.onMessage.addListener((res) => {
+  //   setTheme2Html(res.theme)
+  // })
 
   return (
     <div
