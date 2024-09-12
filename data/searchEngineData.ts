@@ -175,6 +175,20 @@ const searchEngineData: Array<SearchEngine> = [
     searchUrl: "https://github.com/search?q={query}&type=repositories",
     suggestionsUrl: null,
     options: null
+  },
+  {
+    keyword: "devs",
+    title: "开发者搜索",
+    engineType: EngineType.KAIFABAIDU,
+    searchUrl: "https://kaifa.baidu.com/searchPage?wd={query}",
+    suggestionsUrl: "https://kaifa.baidu.com/rest/v1/recommend/suggests",
+    openSuggestUrl: "https://kaifa.baidu.com/searchPage?wd=",
+    options: {
+      method: "get",
+      data: {
+        wd: ParamsType.KEYWORD
+      }
+    }
   }
 ]
 
@@ -183,7 +197,13 @@ type GetEngine = (value?: RegExpMatchArray) => SearchEngine | undefined
 const getEngine: GetEngine = (value?: RegExpMatchArray) => {
   if (!value) return undefined
   const val = value[0].trim()
+  getEngineListData()
   return searchEngineData.find((item) => item.keyword == val)
 }
 
-export { getEngine }
+const getEngineListData = async () => {
+  const res = await chrome.storage.local.get("engineList")
+  console.log(res);
+}
+
+export { getEngine, getEngineListData, searchEngineData }

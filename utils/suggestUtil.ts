@@ -69,6 +69,8 @@ const hanlderResponse = (
       return handlerBingResponse(<BingResponse>data, searchEngine.openSuggestUrl)
     case EngineType.BILIBILI:
       return handlerBilibiliResponse(<BilibiliResponse>data, searchEngine.searchUrl)
+    case EngineType.KAIFABAIDU:
+      return handlerKaifaBaiduResponse(<KaifaBaiduResponse>data, searchEngine.searchUrl)
     default:
       return []
   }
@@ -119,6 +121,17 @@ const handlerBilibiliResponse = (res: BilibiliResponse, searchUrl: string): Sugg
       description: null,
       version: null,
       openUrl: handlerSearchEngines(searchUrl, title)
+    }
+  })
+}
+
+const handlerKaifaBaiduResponse = (res: KaifaBaiduResponse, searchUrl: string): SuggestListItem[] => {
+  return res.data.map(item => {
+    return {
+      title: item,
+      description: null,
+      version: null,
+      openUrl: handlerSearchEngines(searchUrl, item)
     }
   })
 }

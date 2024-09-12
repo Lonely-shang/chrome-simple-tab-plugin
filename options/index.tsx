@@ -6,8 +6,19 @@ import { initTheme, setTheme2Html } from "~utils/themeUtils"
 
 import "./index.scss"
 
-import { Button, ConfigProvider, Select, Table, Tag, theme, type TableColumnsType } from "antd"
+import {
+  Button,
+  ConfigProvider,
+  Input,
+  Select,
+  Table,
+  Tag,
+  theme,
+  type TableColumnsType
+} from "antd"
+import logo from "data-base64:~assets/icon.png"
 import { useState } from "react"
+import { searchEngineData } from "~data/searchEngineData"
 
 const Options: React.FC = () => {
   const [currentTheme, setCurrentTheme] = useState<string>("light")
@@ -18,8 +29,8 @@ const Options: React.FC = () => {
     setCurrentTheme(res.currentTheme)
   })
 
-  chrome.storage.onChanged.addListener( async (changes) => {
-    if(changes.theme.newValue === mode) return
+  chrome.storage.onChanged.addListener(async (changes) => {
+    if (changes.theme.newValue === mode) return
     setMode(changes.theme.newValue)
     const res = await setTheme2Html(changes.theme.newValue)
     setCurrentTheme(res)
@@ -33,103 +44,74 @@ const Options: React.FC = () => {
     chrome.storage.local.set({ theme })
   }
 
-  interface DataType {
-  key: React.Key;
-  name: string;
-  age: number;
-  address: string;
-}
-
-const columns: TableColumnsType<DataType> = [
-  {
-    title: 'Name',
-    dataIndex: 'name',
-  },
-  {
-    title: 'Age',
-    dataIndex: 'age',
-  },
-  {
-    title: 'Address',
-    dataIndex: 'address',
-  },
-];
-
-const data: DataType[] = [
-  {
-    key: '1',
-    name: 'John Brown',
-    age: 32,
-    address: 'New York No. 1 Lake Park',
-  },
-  {
-    key: '2',
-    name: 'Jim Green',
-    age: 42,
-    address: 'London No. 1 Lake Park',
-  },
-  {
-    key: '3',
-    name: 'Joe Black',
-    age: 32,
-    address: 'Sydney No. 1 Lake Park',
-  },
-];
 
   return (
     <ConfigProvider
-    theme={{
-      algorithm: currentTheme === "dark" ? theme.darkAlgorithm : theme.defaultAlgorithm
-    }}>
+      theme={{
+        algorithm:
+          currentTheme === "dark" ? theme.darkAlgorithm : theme.defaultAlgorithm
+      }}>
       <div className="optionBody">
+        <div className="option-header">
+          <img src={logo} alt="logo" />
+          <span>Simple Tab</span>
+        </div>
         <div className="option-content">
-          <h2>Simple Tab Options</h2>
-          <div
-            className="item-content theme-content"
-            onClick={(e) => changeTheme(e)}>
-            <div
-              className={mode === "light" ? "theme-item active" : "theme-item"}
-              data-theme="light">
-              <img src={lightImage} alt="light" data-theme="light" />
-            </div>
-            <div
-              className={mode === "dark" ? "theme-item active" : "theme-item"}
-              data-theme="dark">
-              <img src={darkImage} alt="dark" data-theme="dark" />
-            </div>
-            <div
-              className={mode === "os" ? "theme-item active" : "theme-item"}
-              data-theme="os">
-              <img src={autoImage} alt="os" data-theme="os" />
-            </div>
-          </div>
-          <div className="item-content engine-content">
-            <div>搜索引擎</div>
-            <div>
-              <Select
-                placeholder="请选择搜索引擎"
-                style={{ width: 200 }}
-                options={[
-                  { value: "jack", label: "Jack" },
-                  { value: "lucy", label: "Lucy" },
-                  { value: "Yiminghe", label: "yiminghe" }
-                ]}
-              />
+          <div className="item-content">
+            <div className="item-title">主题设置</div>
+            <div className="theme-content" onClick={(e) => changeTheme(e)}>
+              <div
+                className={
+                  mode === "light" ? "theme-item active" : "theme-item"
+                }
+                data-theme="light">
+                <img src={lightImage} alt="light" data-theme="light" />
+              </div>
+              <div
+                className={mode === "dark" ? "theme-item active" : "theme-item"}
+                data-theme="dark">
+                <img src={darkImage} alt="dark" data-theme="dark" />
+              </div>
+              <div
+                className={mode === "os" ? "theme-item active" : "theme-item"}
+                data-theme="os">
+                <img src={autoImage} alt="os" data-theme="os" />
+              </div>
             </div>
           </div>
           <div className="item-content">
-            <Table columns={columns} dataSource={data} pagination={false} size="middle" />
-            <ul>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
+            <div className="item-title">引擎设置</div>
+            <div className="engine-content">
+              <div>默认搜索引擎</div>
+              <div>
+                <Select
+                  size="large"
+                  placeholder="请选择搜索引擎"
+                  style={{ width: 200 }}
+                  options={[
+                    { value: "jack", label: "Jack" },
+                    { value: "lucy", label: "Lucy" },
+                    { value: "Yiminghe", label: "yiminghe" }
+                  ]}
+                />
+              </div>
+            </div>
+          </div>
+          <div className="item-content">
+            <div className="item-title">快捷指令</div>
+            <ul className="engine-list">
+              {searchEngineData.map((item) => (
+                <li key={item.keyword}>
+                  <div>{item.title}</div>
+                  <div>
+                    <Input spellCheck="false" defaultValue={item.searchUrl} disabled={true} size="large"/>
+                  </div>
+                  <div>&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                  <div>
+                    <Input spellCheck="false" defaultValue={item.keyword} disabled={true} size="large"/>
+                  </div>
+                </li>
+              ))}
             </ul>
           </div>
         </div>

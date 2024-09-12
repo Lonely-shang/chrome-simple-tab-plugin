@@ -66,3 +66,10 @@ interface IBilibiliSuggestItem {
   type: string
   value: string
 }
+
+
+interface KaifaBaiduResponse {
+  message: string
+  status: string
+  data: string[]
+}

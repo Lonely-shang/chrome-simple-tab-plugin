@@ -177,7 +177,7 @@
   ],
   "commandList": [
     ">history",
-    ">switchTheme",
+    ">open",
     ">openSetting"
   ]
 }
