@@ -1,5 +1,5 @@
 import { ConfigProvider, Segmented } from "antd"
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 
 import { sendToBackground } from "@plasmohq/messaging"
 
@@ -14,6 +14,7 @@ const Popup: React.FC = () => {
     { label: "黑暗", value: "dark" },
     { label: "跟随系统", value: "os" }
   ]
+
 
   initTheme().then((res) => setTheme(res.mode))
 

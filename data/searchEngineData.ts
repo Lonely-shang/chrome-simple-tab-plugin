@@ -192,18 +192,18 @@ const searchEngineData: Array<SearchEngine> = [
   }
 ]
 
-type GetEngine = (value?: RegExpMatchArray) => SearchEngine | undefined
+type GetEngine = (value?: RegExpMatchArray) => Promise<SearchEngine | undefined>
 
-const getEngine: GetEngine = (value?: RegExpMatchArray) => {
+const getEngine: GetEngine = async (value?: RegExpMatchArray) => {
   if (!value) return undefined
   const val = value[0].trim()
-  getEngineListData()
+  const searchEngineData = await getEngineListData()
   return searchEngineData.find((item) => item.keyword == val)
 }
 
-const getEngineListData = async () => {
+const getEngineListData = async (): Promise<SearchEngine[]> => {
   const res = await chrome.storage.local.get("engineList")
-  console.log(res);
+  return res.engineList
 }
 
 export { getEngine, getEngineListData, searchEngineData }

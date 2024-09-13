@@ -6,31 +6,32 @@ import { initTheme, setTheme2Html } from "~utils/themeUtils"
 
 import "./index.scss"
 
-import {
-  Button,
-  ConfigProvider,
-  Input,
-  Select,
-  Table,
-  Tag,
-  theme,
-  type TableColumnsType
-} from "antd"
+import { ConfigProvider, Input, Select, theme } from "antd"
 import logo from "data-base64:~assets/icon.png"
-import { useState } from "react"
-import { searchEngineData } from "~data/searchEngineData"
+import { useEffect, useState } from "react"
+import { saveConfig } from "~config/config"
+
 
 const Options: React.FC = () => {
-  const [currentTheme, setCurrentTheme] = useState<string>("light")
   const [mode, setMode] = useState<string>("os")
+  const [engineList, setEngineList] = useState<any[]>([])
+  const [currentEngine, setCurrentEngine] = useState<string>("")
+  const [currentTheme, setCurrentTheme] = useState<string>("light")
 
   initTheme(false).then((res) => {
     setMode(res.mode)
     setCurrentTheme(res.currentTheme)
   })
 
+  useEffect(() => {
+    chrome.storage.local.get(["engineList", "defaultEngine"], (res) => {
+      setEngineList(res.engineList)
+      setCurrentEngine(res.defaultEngine)
+    })
+  }, [])
+
   chrome.storage.onChanged.addListener(async (changes) => {
-    if (changes.theme.newValue === mode) return
+    if (!changes.theme || changes.theme.newValue === mode) return
     setMode(changes.theme.newValue)
     const res = await setTheme2Html(changes.theme.newValue)
     setCurrentTheme(res)
@@ -41,10 +42,25 @@ const Options: React.FC = () => {
     if (target.nodeName !== "IMG") return
     const theme = target.getAttribute("data-theme")
     setMode(theme)
-    chrome.storage.local.set({ theme })
+    saveConfig({ theme })
   }
 
+  const changeEngine = (value: string) => {
+    setCurrentEngine(value)
+    saveConfig({ defaultEngine: value })
+  }
 
+  const changeKeyword = (e: React.ChangeEvent<HTMLInputElement>, title: string) => {
+    const keyword = e.target.value
+    const newEngineList = engineList.map((item) => {
+      if (item.title === title) {
+        return { ...item, keyword }
+      }
+      return item
+    })
+    // setEngineList(newEngineList)
+    saveConfig({ engineList: newEngineList })
+  }
   return (
     <ConfigProvider
       theme={{
@@ -88,11 +104,13 @@ const Options: React.FC = () => {
                   size="large"
                   placeholder="请选择搜索引擎"
                   style={{ width: 200 }}
-                  options={[
-                    { value: "jack", label: "Jack" },
-                    { value: "lucy", label: "Lucy" },
-                    { value: "Yiminghe", label: "yiminghe" }
-                  ]}
+                  value={currentEngine}
+                  dropdownStyle={{ textAlign: 'center' }}
+                  onChange={(value) => changeEngine(value)}
+                  options={engineList.map((item) => ({
+                    value: item.searchUrl,
+                    label: item.title
+                  }))}
                 />
               </div>
             </div>
@@ -100,15 +118,26 @@ const Options: React.FC = () => {
           <div className="item-content">
             <div className="item-title">快捷指令</div>
             <ul className="engine-list">
-              {searchEngineData.map((item) => (
+              {engineList.map((item) => (
                 <li key={item.keyword}>
                   <div>{item.title}</div>
                   <div>
-                    <Input spellCheck="false" defaultValue={item.searchUrl} disabled={true} size="large"/>
+                    <Input
+                      spellCheck="false"
+                      defaultValue={item.searchUrl}
+                      disabled={true}
+                      size="large"
+                    />
                   </div>
                   <div>&nbsp;&nbsp;&nbsp;&nbsp;</div>
                   <div>
-                    <Input spellCheck="false" defaultValue={item.keyword} disabled={true} size="large"/>
+                    <Input
+                      spellCheck="false"
+                      defaultValue={item.keyword}
+                      size="large"
+                      style={{ textAlign: 'center' }}
+                      onChange={(e) => changeKeyword(e, item.title)}
+                    />
                   </div>
                 </li>
               ))}

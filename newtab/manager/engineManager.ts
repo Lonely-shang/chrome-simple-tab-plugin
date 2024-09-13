@@ -1,5 +1,7 @@
 import { useState, type Dispatch, type KeyboardEvent } from "react"
 
+import type SuggestManager from "~components/suggestList/suggestManager"
+import { getDefaultEngine } from "~config/config"
 import { getEngine } from "~data/searchEngineData"
 import {
   handlerNetWorkUrl,
@@ -8,7 +10,6 @@ import {
 } from "~utils/urlUtils"
 
 import type AnimationManager from "./animationManager"
-import type SuggestManager from "~components/suggestList/suggestManager"
 
 class EngineManager {
   private index: number
@@ -16,9 +17,10 @@ class EngineManager {
   private animationManager: AnimationManager
   private searchEngine = useState<SearchEngine>(null)
 
-  private defaultEngine: string = "https://www.google.com/search?q="
-
-  constructor(animationManager: AnimationManager, suggestManager: SuggestManager) {
+  constructor(
+    animationManager: AnimationManager,
+    suggestManager: SuggestManager
+  ) {
     this.suggestManager = suggestManager
     this.animationManager = animationManager
     animationManager.setAnimationEndCallBack = this.clearEngineData(
@@ -35,24 +37,24 @@ class EngineManager {
     return engineData?.title
   }
 
-  getSearchEngine(
+  async getSearchEngine(
     value: string,
     setSearchVal: Dispatch<React.SetStateAction<string>>
   ) {
     if (!this.animationManager.getPreTitleStatus) return
     const [_, setSearchEngine] = this.searchEngine
     const regVal = value.match(/.*\s$/gi)
-    const engine = getEngine(regVal)
+    const engine = await getEngine(regVal)
     if (!engine) return
     setSearchEngine(engine)
     this.animationManager.setPreTitleStatus()
     setSearchVal("")
   }
 
-  openSearchEngine(value: string, event: KeyboardEvent) {
+  async openSearchEngine(value: string, event: KeyboardEvent) {
     if (event.key !== "Enter") return
     const isOpen = this.suggestManager.openState()
-    if (isOpen || value.startsWith('>')) return
+    if (isOpen || value.startsWith(">")) return
     const [searchEngine, _] = this.searchEngine
     if (matchUrl(value)) {
       const openUri = handlerNetWorkUrl(value)
@@ -65,8 +67,9 @@ class EngineManager {
       window.open(url)
       return
     }
-
-    window.open(this.defaultEngine + value)
+    const defaultEngine = await getDefaultEngine()
+    const url = handlerSearchEngines(defaultEngine, value)
+    window.open(url)
   }
 
   removeEngineSymbol(searchVal: string, event: KeyboardEvent) {

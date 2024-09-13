@@ -3,7 +3,7 @@ import { useEffect, useLayoutEffect, useRef } from "react"
 import "./index.scss"
 import "../utils/fontSize"
 
-import { getPort } from '@plasmohq/messaging/port'
+// import { getPort } from '@plasmohq/messaging/port'
 import { SuggestList, TimeClock } from "~components"
 import type { SuggestListRef } from "~components/suggestList"
 import getBackgroundImg from "~utils/backgroundUtil"
@@ -19,12 +19,13 @@ function NewTab() {
   const animationManager = new AnimationManager(main)
   const suggestManager = new SuggestManager(suggestList, animationManager)
   const tabClient = new TabClient(animationManager, suggestManager)
-  const mailPort = getPort("theme")
+  // const mailPort = getPort("theme")
   initTheme(true)
   const imageUrl = getBackgroundImg()
 
   chrome.storage.onChanged.addListener((changes) => {
     console.log(changes);
+    if (!changes.theme) return
     setTheme2Html(changes.theme.newValue)
   })
 
