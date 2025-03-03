@@ -4,7 +4,7 @@ import "./index.scss"
 import "../utils/fontSize"
 
 // import { getPort } from '@plasmohq/messaging/port'
-import { SuggestList, TimeClock } from "~components"
+import { Background, SuggestList, TimeClock } from "~components"
 import type { SuggestListRef } from "~components/suggestList"
 import getBackgroundImg from "~utils/backgroundUtil"
 
@@ -14,6 +14,7 @@ import SuggestManager from "~components/suggestList/suggestManager"
 import { initTheme, setTheme2Html } from "~utils/themeUtils"
 
 function NewTab() {
+  const canvas = useRef<HTMLCanvasElement>(null)
   const main = useRef<HTMLDivElement>(null)
   const suggestList = useRef<SuggestListRef>(null)
   const animationManager = new AnimationManager(main)
@@ -23,22 +24,19 @@ function NewTab() {
   initTheme(true)
   const imageUrl = getBackgroundImg()
 
-  chrome.storage.onChanged.addListener((changes) => {
-    console.log(changes);
-    if (!changes.theme) return
-    setTheme2Html(changes.theme.newValue)
-  })
+  // chrome.storage.onChanged.addListener((changes) => {
+  //   console.log(changes);
+  //   if (!changes.theme) return
+  //   setTheme2Html(changes.theme.newValue)
+  // })
 
   // mailPort.onMessage.addListener((res) => {
   //   setTheme2Html(res.theme)
   // })
 
   return (
-    <div
-      className="tabBody"
-      style={{
-        backgroundImage: `url(${imageUrl})`
-      }}>
+    <div className="tabBody">
+      <Background imageUrl={imageUrl}></Background>
       <div className="tabBody-wrap" ref={main}>
         <div className="titleLogo">
           <TimeClock />

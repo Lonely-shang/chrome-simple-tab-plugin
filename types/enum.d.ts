@@ -1,3 +1,8 @@
+declare enum Mode {
+  LIGHT = "light",
+  DARK = "dark",
+  AUTO = "auto"
+}
 
 declare enum ParamsType {
   KEYWORD =  '#keyword#',

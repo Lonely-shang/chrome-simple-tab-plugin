@@ -1,3 +1,8 @@
+export enum Mode {
+  LIGHT = "light",
+  DARK = "dark",
+  AUTO = "auto"
+}
 
 export enum ParamsType {
   KEYWORD =  '#keyword#',
