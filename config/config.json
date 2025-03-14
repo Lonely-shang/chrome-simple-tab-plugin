@@ -173,7 +173,21 @@
       "searchUrl": "http://maps.google.com/?q={query}",
       "suggestionsUrl": null,
       "options": null
-    }
+    },
+    {
+      "keyword": "devs",
+      "title": "开发者搜索",
+      "engineType": "kaifabaidu",
+      "searchUrl": "https://kaifa.baidu.com/searchPage?wd={query}",
+      "suggestionsUrl": "https://kaifa.baidu.com/rest/v1/recommend/suggests",
+      "openSuggestUrl": "https://kaifa.baidu.com/searchPage?wd=",
+      "options": {
+        "method": "get",
+        "data": {
+          "wd": "#keyword#"
+        }
+      }
+  }
   ],
   "commandList": [
     ">history",

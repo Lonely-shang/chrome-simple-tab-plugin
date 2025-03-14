@@ -52,6 +52,9 @@ const Popup: React.FC = () => {
               onChange={(value) => onChange(value)}
             />
           </div>
+          <div>
+            <span>2222</span>
+          </div>
         </ConfigProvider>
       </div>
       <div className="st-popup-footer">@ 2024 Miliky - 扩展程序选项</div>

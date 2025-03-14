@@ -1,4 +1,5 @@
-import { useEffect, useLayoutEffect, useRef } from "react"
+import { useEffect, useLayoutEffect, useRef, useState } from "react"
+import { Drawer } from "antd"
 
 import "./index.scss"
 import "../utils/fontSize"
@@ -11,18 +12,19 @@ import getBackgroundImg from "~utils/backgroundUtil"
 import TabClient from "./tabClient"
 import AnimationManager from "./manager/animationManager"
 import SuggestManager from "~components/suggestList/suggestManager"
-import { initTheme, setTheme2Html } from "~utils/themeUtils"
+import { initTheme } from "~utils/themeUtils"
 
 function NewTab() {
-  const canvas = useRef<HTMLCanvasElement>(null)
   const main = useRef<HTMLDivElement>(null)
   const suggestList = useRef<SuggestListRef>(null)
   const animationManager = new AnimationManager(main)
   const suggestManager = new SuggestManager(suggestList, animationManager)
   const tabClient = new TabClient(animationManager, suggestManager)
-  // const mailPort = getPort("theme")
+
   initTheme(true)
   const imageUrl = getBackgroundImg()
+
+  const [open, setOpen] = useState(false)
 
   // chrome.storage.onChanged.addListener((changes) => {
   //   console.log(changes);
@@ -74,6 +76,18 @@ function NewTab() {
           <div className="bookMark-item"></div>
         </div> */}
       </div>
+      <Drawer
+        closable
+        destroyOnClose
+        title={<p>Loading Drawer</p>}
+        placement="right"
+        open={open}
+        onClose={() => setOpen(false)}
+      >
+        <p>Some contents...</p>
+        <p>Some contents...</p>
+        <p>Some contents...</p>
+      </Drawer>
     </div>
   )
 }
