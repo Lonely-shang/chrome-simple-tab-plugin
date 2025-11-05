@@ -8,9 +8,7 @@ const SuggestListItem: React.FC<{
   openUrl?: string
 }> = (props, ref) => {
   const openItem = () => {
-    console.log(props.openUrl);
-    
-    !!props.openUrl && window.open(props.openUrl)
+    props.openUrl && window.open(props.openUrl)
   }
   return (
     <li key={props.title} className={`${props.active === props.index ? 'actived' : ''} suggestList-item`} onClick={() => openItem()}>
